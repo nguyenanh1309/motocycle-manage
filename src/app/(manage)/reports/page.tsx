@@ -1,9 +1,11 @@
-"use client"
-export default function ReportsPage() {
+import React from 'react'
+
+const Page = () => {
   return (
     <div>
-      <h1>Quản lý Báo cáo</h1>
-      {/* Nội dung trang hóa đơn tại đây */}
+      
     </div>
-  );
+  )
 }
+
+export default Page

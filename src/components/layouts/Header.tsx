@@ -1,44 +1,58 @@
 "use client";
+import {
+  Box,
+  Button,
+  IconButton,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
-import SearchIcon from "@mui/icons-material/Search";
-import Image from "next/image";
-import AvatarCanvas from "../bases/AvatarCanvas";
-import InputLabel from "@mui/material/InputLabel";
-import Button from "@mui/material/Button";
+import SearchBox from "../common/SearchBox";
+import AvatarCanvas from "../common/AvatarCanvas";
+import Icon from "../bases/Icon";
+import themeConfig from "@/config";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { MdInsertChart } from "react-icons/md";
+import Breadcumb from "../common/Breadcumb";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const [brand, setBrand] = useState("1");
-
+  const [searchValue, setSearchValue] = useState("");
+  const pathName = usePathname();
   const handleChange = (event: SelectChangeEvent) => {
     setBrand(event.target.value);
   };
   return (
-    <div className="w-full h-[120px]">
-      <div className="flex items-center justify-between h-[60px] px-5 border-b">
-        <div className="relative bg-[#107e412d] flex items-center border rounded-md max-w-[420px] w-full h-[40px]">
-          <SearchIcon
-            className="absolute top-1/2 translate-y-[-50%] left-3"
-            sx={{ color: "#959595" }}
-          />
-          <input
-            type="text"
-            className="heading-4 w-full text-[#959595] bg-transparent pl-[40px] outline-none"
-            placeholder="Tìm kiếm theo"
-          />
-        </div>
-        <div>
+    <Box sx={{ 
+      width: "100%", 
+      height: "120px",
+      zIndex: 10,
+      boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.03)',
+    }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "60px",
+          paddingInline: 3,
+          borderBottom: `solid 1px ${themeConfig.borderColor1}`,
+        }}
+      >
+        <Box></Box>
+        {/* <SearchBox value={searchValue} onChange={() => setSearchValue} /> */}
+        <Box>
           <ul className="flex gap-5 items-center">
             <li>
-              <Image
-                src="/Notification.png"
-                alt="Notification"
-                width={24}
-                height={24}
-              />
+              <IconButton aria-label="delete" size="small">
+                <Icon
+                  icon="mingcute:notification-fill"
+                  color={themeConfig.mainColor}
+                  fontSize={20}
+                />
+              </IconButton>
             </li>
             <li>
               <button className="w-[40px] h-[40px] hover:cursor-pointer">
@@ -46,16 +60,48 @@ const Header = () => {
               </button>
             </li>
           </ul>
-        </div>
-      </div>
-      <div className="flex items-center justify-between h-[60px] px-5">
-        <div>
-          <h2 className="heading-3 font-semibold text-[#0B8945]">Dashboard</h2>
-          <span className="heading-4 text-[#8C8C8C]">
-            Hi, welcome to motocycle management of Thành Thắng Moto
-          </span>
-        </div>
-        <div className="flex items-center">
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          paddingInline: 3,
+          height: "60px",
+        }}
+      >
+        <Box>
+          {
+            pathName === "/dashboard" || pathName === "/" ? (
+              <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <Typography
+              variant="h3"
+              fontSize="16px"
+              fontWeight={600}
+              sx={{ color: themeConfig.mainColor }}
+            >
+              Dashboard
+            </Typography>
+            <Typography
+              variant="body2"
+              fontSize="13px"
+              color={themeConfig.textColor3}
+            >
+              Hi, welcome to motocycle management of Thành Thắng Moto
+              </Typography>
+            </Box>
+          ) : (
+            <Breadcumb />
+          )}
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           <FormControl
             sx={{
               m: 1,
@@ -65,7 +111,6 @@ const Header = () => {
             }}
             size="small"
           >
-            {/* <InputLabel id="demo-select-small-label">Cơ sở sữa chữa</InputLabel> */}
             <Select
               labelId="demo-select-small-label"
               id="demo-select-small"
@@ -73,6 +118,7 @@ const Header = () => {
               label="Cơ sở sửa chữa"
               onChange={handleChange}
               sx={{
+                bgcolor: themeConfig.bgColor1,
                 "& .MuiOutlinedInput-notchedOutline": {
                   border: "none",
                 },
@@ -88,17 +134,17 @@ const Header = () => {
           </FormControl>
           <Button
             sx={{
-              bgcolor: "#F2F2F2",
-              color: "#009343",
+              bgcolor: themeConfig.bgColor1,
+              color: themeConfig.mainColor,
               height: "40px",
               minWidth: "40px",
             }}
           >
-            <MdInsertChart style={{ fontSize: "24px" }} />
+            <Icon icon="uis:chart" />
           </Button>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

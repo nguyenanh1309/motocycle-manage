@@ -1,15 +1,6 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import GGAuthProvider from "@/components/common/GGAuthProvider";
 import "./globals.css";
-import "@/style/css/layout.css";
-import "@/style/css/main.css";
-
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Motorcycle Management",
-  description: "motorcycle management system",
-};
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
   children,
@@ -18,7 +9,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body>
+        <Toaster />
+        <GGAuthProvider>{children}</GGAuthProvider>
+      </body>
     </html>
   );
 }

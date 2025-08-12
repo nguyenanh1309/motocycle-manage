@@ -1,77 +1,237 @@
-"use client"
+"use client";
+import {
+  Box,
+  Button,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  Fade,
+} from "@mui/material";
+import Link from "next/link";
+import React, { useState } from "react";
 import Image from "next/image";
-import React from "react";
-import NavItem from "../bases/NavItem";
-import { FaPenSquare } from "react-icons/fa";
-import { RiDashboardHorizontalFill } from "react-icons/ri";
-import { SiMockserviceworker } from "react-icons/si";
-import { IoIosListBox } from "react-icons/io";
-import { FaUserGroup } from "react-icons/fa6";
-import { MdInventory2 } from "react-icons/md";
-import { RiDiscountPercentFill } from "react-icons/ri";
-import { BiSolidReport } from "react-icons/bi";
-import { MdManageAccounts } from "react-icons/md";
-import { IoMdSettings } from "react-icons/io";
-import { IoLogOut } from "react-icons/io5";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import Icon from "../bases/Icon";
+import themeConfig from "@/config";
+import { NAVIGATION_ITEMS } from "@/config/navigation-list";
+import { layoutSize } from "@/config/resize-layout";
 
+type Props = {
+  className?: string
+  isExpanded?: boolean
+  setIsExpanded?: (status: boolean) => void;
+};
 
-
-const Sidebar = () => {
+const Sidebar = ({ className, isExpanded, setIsExpanded }: Props) => {
   const router = useRouter();
+  const pathName = usePathname();
 
   const handleLogout = () => {
     router.push("/");
-  }
+  };
+
+  const toggleSidebar = () => {
+    setIsExpanded && setIsExpanded(!isExpanded);
+  };
 
   return (
-    <div className="relative max-w-[255px] w-full h-full border-r">
-      <div className="h-[70px] flex items-center justify-center">
-        <div>
-          <Image src="/logo-moto.png" alt="motocly" width={160} height={26} />
-        </div>
-      </div>
-      <div className="flex flex-col">
-        <NavItem label="Tổng quan" href="/dashboard" >
-          <RiDashboardHorizontalFill />
-        </NavItem>
-        <NavItem label="Hóa đơn" href="/invoices" >
-          <FaPenSquare />
-        </NavItem>
-        <NavItem label="Dịch vụ" href="/services" >
-          <SiMockserviceworker />
-        </NavItem>
-        <NavItem label="Phiếu chi" href="/expenses" >
-          <IoIosListBox />
-        </NavItem>
-        <NavItem label="Nhân viên" href="/staff" >
-          <FaUserGroup />
-        </NavItem>
-        <NavItem label="Kho hàng" href="/inventory" >
-          <MdInventory2 />
-        </NavItem>
-        <NavItem label="Cổ phần" href="/shares" >
-          <RiDiscountPercentFill/>
-        </NavItem>
-        <NavItem label="Báo cáo" href="/reports" >
-          <BiSolidReport/>
-        </NavItem>
-        <NavItem label="Tài khoản" href="/accounts" >
-          <MdManageAccounts/>
-        </NavItem>
-        <NavItem label="Cấu hình" href="/settings" >
-          <IoMdSettings/>
-        </NavItem>
-      </div>
-      <div className="absolute bottom-0 left-0 right-0 flex items-center px-5 py-2">
-        <button onClick={handleLogout} className="flex items-center gap-2 h-[60px] w-full border-t">
-          <div className="flex items-center justify-center w-[40px] h-[40px] bg-[#2BA563] text-[#ffffff] rounded-full">
-            <IoLogOut />
-          </div>
-          <span className="text-[#5B5B5B]">Đăng xuất</span>
-        </button>
-      </div>
-    </div>
+    <Box
+      sx={{
+        flexShrink: 0,
+        position: "relative",
+        borderRight: "solid 1px #cccccc",
+        maxWidth: isExpanded ? layoutSize.widthSidebarLarge : layoutSize.widthSidebarSmall,
+        width: "100%",
+        height: "100vh",
+        transition: "max-width 0.3s ease-in-out",
+      }}
+    >
+      <IconButton
+        onClick={toggleSidebar}
+        sx={{
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "20px",
+          height: "20px",
+          padding: 0,
+          borderRadius: "50%",
+          top: "20px",
+          right: "-10px",
+          bgcolor: themeConfig.bgColor,
+          border: "solid 1px #cccccc",
+          "&:hover": {
+            bgcolor: themeConfig.bgColorHover,
+          },
+          zIndex: 1,
+        }}
+      >
+        <Icon
+          icon={isExpanded ? "ion:chevron-back" : "ion:chevron-forward"}
+          fontSize={16}
+        />
+      </IconButton>
+      <Box
+        sx={{
+          height: "62px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Fade in={isExpanded} timeout={300}>
+          <Box sx={{ display: isExpanded ? "block" : "none" }}>
+            <Image
+              src="/images/icons/logo-motocyle.png"
+              alt="Motocyle"
+              width={180}
+              height={40}
+              priority
+            />
+          </Box>
+        </Fade>
+        <Fade in={!isExpanded} timeout={300}>
+          <Box
+            sx={{
+              display: !isExpanded ? "block" : "none",
+              paddingRight: "10px",
+            }}
+          >
+            <Image
+              src="/images/icons/logo-small.png"
+              alt="Motocyle"
+              width={40}
+              height={40}
+              priority
+            />
+          </Box>
+        </Fade>
+      </Box>
+      <Box>
+        <List
+          sx={{ width: "90%" }}
+          component="nav"
+          aria-labelledby="nested-list-subheader"
+        >
+          {NAVIGATION_ITEMS.map((item) => (
+            <ListItemButton
+              key={item.key}
+              component={Link}
+              href={item.link}
+              sx={{
+                paddingInline: isExpanded ? 4 : 3,
+                borderTopRightRadius: "30px",
+                borderBottomRightRadius: "30px",
+                backgroundColor:
+                  pathName.includes(item.link)
+                    ? themeConfig.mainColor
+                    : themeConfig.bgColor,
+                color:
+                  pathName.includes(item.link)
+                    ? themeConfig.textColor1
+                    : themeConfig.textColor2,
+                "&:hover": {
+                  backgroundColor:
+                    pathName === item.link
+                      ? themeConfig.mainColor
+                      : themeConfig.bgColorHover,
+                },
+                height: "48px",
+                transition: "all 0.3s ease-in-out",
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: "30px" }}>
+                <Icon
+                  color={
+                    pathName.includes(item.link)
+                      ? themeConfig.textColor1
+                      : themeConfig.textColor2
+                  }
+                  icon={item.icon}
+                  fontSize={20}
+                />
+              </ListItemIcon>
+              <ListItemText
+                sx={{
+                  color:
+                    pathName.includes(item.link)
+                      ? themeConfig.textColor1
+                      : themeConfig.textColor2,
+                  opacity: isExpanded ? 1 : 0,
+                  transition: "opacity 0.3s ease-in-out",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  maxWidth: isExpanded ? "100%" : "0",
+                  width: isExpanded ? "auto" : "0px",
+                }}
+                primary={item.title}
+              />
+            </ListItemButton>
+          ))}
+        </List>
+      </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          borderTop: "solid 1px #cccccc",
+          paddingInline: isExpanded ? 5 : 1,
+          paddingBlock: 1,
+          transition: "all 0.3s ease-in-out",
+        }}
+      >
+        <Button
+          onClick={handleLogout}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: isExpanded ? 2 : 0,
+            height: "60px",
+            width: isExpanded ? "100%" : "auto",
+            textTransform: "none",
+            transition: "all 0.3s ease-in-out",
+            padding: isExpanded ? "0 8px" : 0,
+          }}
+        >
+          <Box
+            className="flex items-center justify-center bg-[#2BA563] text-[#ffffff] rounded-full"
+            sx={{
+              width: "40px",
+              height: "40px",
+              flexShrink: 0,
+            }}
+          >
+            <Icon color={themeConfig.textColor1} icon="majesticons:logout" />
+          </Box>
+          {isExpanded && (
+            <Typography
+              color="#5B5B5B"
+              fontWeight={600}
+              fontSize="14px"
+              sx={{
+                transition: "opacity 0.3s ease-in-out",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                flexGrow: 1,
+                textAlign: "left",
+              }}
+            >
+              Đăng xuất
+            </Typography>
+          )}
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
