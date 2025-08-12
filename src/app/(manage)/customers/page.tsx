@@ -9,7 +9,19 @@ import { useRouter } from "next/navigation";
 import SearchBox from "@/components/common/SearchBox";
 import themeConfig from "@/config";
 
-const columns: readonly Column[] = [
+
+
+
+const Page = () => {
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [searchValue, setSearchValue] = useState("");
+  const router = useRouter();
+
+  const handleAddCustomer = () => {
+    router.push("customers/add");
+  };
+  const columns: readonly Column[] = [
   {
     field: "id",
     headerName: "",
@@ -63,6 +75,23 @@ const columns: readonly Column[] = [
     align: "right",
     format: (value: number) => value.toLocaleString("en-US"),
   },
+  {
+  field: "edit",
+  headerName: "",
+  minWidth: 80,
+  align: "center",
+  renderCell: (row) => (
+    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+      <Icon
+        icon="mdi:pencil"
+        fontSize="20px"
+        style={{ cursor: "pointer" }}
+        onClick={() => router.push(`/customers/edit`)}
+      />
+    </Box>
+  ),
+},
+
 ];
 
 const rows = [
@@ -107,16 +136,6 @@ const rows = [
     total: 3500000,
   },
 ];
-
-const Page = () => {
-  const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(10);
-  const [searchValue, setSearchValue] = useState("");
-  const router = useRouter();
-
-  const handleAddCustomer = () => {
-    router.push("customers/add");
-  };
   return (
     <Box sx={{ padding: 3 }}>
       <Card>

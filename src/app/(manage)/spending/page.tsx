@@ -10,7 +10,47 @@ import SearchBox from "@/components/common/SearchBox";
 import themeConfig from "@/config";
 
 const columns: readonly Column[] = [
-  
+  {
+      field: "id",
+      headerName: "",
+      minWidth: 20,
+      type: "checkbox",
+      renderCell: (row: any) => (
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Checkbox />
+          </Box>
+        </Box>
+      ),
+    },
+
+
+    {
+        field: "spending_date",
+        headerName: "Ngày",
+        minWidth: 100,
+        align: "left",
+      },
+
+
+{
+        field: "spending_name",
+        headerName: "Tên",
+        minWidth: 200,
+        align: "left",
+      },
+
+
+
+     {
+    field: "total_amount",
+    headerName: "Tổng chi tiêu",
+    minWidth: 250,
+    align: "right",
+    format: (value: number) => value.toLocaleString("en-US"),
+  }, 
+
+
 ];
 
 const rows = [
@@ -95,7 +135,15 @@ const Page = () => {
             </ButtonStyled>
           </Box>
         </Box>
-        Table đặt ở đây
+        <TableCustom
+            page={page}
+            setPage={setPage}
+            limit={limit}
+            setLimit={setLimit}
+            rows={rows}
+            columns={columns as Column[]}
+            isPagination={true}
+          />
       </Card>
     </Box>
   );
