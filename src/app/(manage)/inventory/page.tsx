@@ -9,7 +9,49 @@ import { useRouter } from "next/navigation";
 import SearchBox from "@/components/common/SearchBox";
 import themeConfig from "@/config";
 
-const columns: readonly Column[] = [
+
+
+const rows = [
+  {
+    id: "1",
+    product_code: "SP001",
+    product_name: "Nhớt xe máy",
+    quantity: 50,
+    import_price: 80000,
+    sell_price: 100000,
+    total_value: 50 * 80000,
+  },
+  {
+    id: "2",
+    product_code: "SP002",
+    product_name: "Lốp xe",
+    quantity: 20,
+    import_price: 300000,
+    sell_price: 350000,
+    total_value: 20 * 300000,
+  },
+  {
+    id: "3",
+    product_code: "SP003",
+    product_name: "Ắc quy",
+    quantity: 15,
+    import_price: 500000,
+    sell_price: 580000,
+    total_value: 15 * 500000,
+  },
+];
+
+const InventoryPage = () => {
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [searchValue, setSearchValue] = useState("");
+  const router = useRouter();
+
+  const handleAddProduct = () => {
+    router.push("inventory/add");
+  };
+
+  const columns: readonly Column[] = [
   {
     field: "id",
     headerName: "",
@@ -60,47 +102,24 @@ const columns: readonly Column[] = [
     align: "right",
     format: (value: number) => value.toLocaleString("en-US"),
   },
+
+  {
+  field: "edit",
+  headerName: "",
+  minWidth: 80,
+  align: "center",
+  renderCell: (row) => (
+    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+      <Icon
+        icon="mdi:pencil"
+        fontSize="20px"
+        style={{ cursor: "pointer" }}
+        onClick={() => router.push(`/orders/edit`)}
+      />
+    </Box>
+  ),
+},
 ];
-
-const rows = [
-  {
-    id: "1",
-    product_code: "SP001",
-    product_name: "Nhớt xe máy",
-    quantity: 50,
-    import_price: 80000,
-    sell_price: 100000,
-    total_value: 50 * 80000,
-  },
-  {
-    id: "2",
-    product_code: "SP002",
-    product_name: "Lốp xe",
-    quantity: 20,
-    import_price: 300000,
-    sell_price: 350000,
-    total_value: 20 * 300000,
-  },
-  {
-    id: "3",
-    product_code: "SP003",
-    product_name: "Ắc quy",
-    quantity: 15,
-    import_price: 500000,
-    sell_price: 580000,
-    total_value: 15 * 500000,
-  },
-];
-
-const InventoryPage = () => {
-  const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(10);
-  const [searchValue, setSearchValue] = useState("");
-  const router = useRouter();
-
-  const handleAddProduct = () => {
-    router.push("inventory/add");
-  };
 
   return (
     <Box sx={{ padding: 3 }}>

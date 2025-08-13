@@ -2,108 +2,66 @@
 import themeConfig from "@/config";
 import {
   Box,
+  Button,
   Card,
   CardContent,
+  MenuItem,
+  Select,
   TextField,
   Typography,
-  FormHelperText,
   FormControl,
-  Button
+  FormHelperText,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import React, { useEffect } from "react";
-import * as yup from "yup";
+import React from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { ButtonStyled } from "@/mui-theme/base";
+import * as yup from "yup";
 
-type ServiceFormType = {
-  serviceCode: string;
-  serviceName: string;
-  status: string;
-  unitPrice: number | string;
-};
-
-const defaultValues: ServiceFormType = {
-  serviceCode: "",
-  serviceName: "",
+const defaultValues = {
+  service_code: "",
+  service_name: "",
   status: "",
-  unitPrice: "",
+  price: "",
 };
 
-const Page = ({ params }: { params: { id: string } }) => {
+const STATUS_LIST = [
+  { value: "active", label: "Đã thanh toán" },
+  { value: "inactive", label: "Chưa thanh toán" },
+];
+
+
+
+const Page = () => {
   const router = useRouter();
 
-  const showErrors = (field: string, valueLen: number, min: number) => {
-    if (valueLen === 0) {
-      return `${field} không được để trống`;
-    } else if (valueLen > 0 && valueLen < min) {
-      return `${field} phải có ít nhất ${min} ký tự`;
-    } else {
-      return "";
-    }
-  };
+
 
   const schema = yup.object().shape({
-    serviceCode: yup
-      .string()
-      .min(3, (obj) => showErrors("Mã dịch vụ", obj.value.length, obj.min))
-      .required(),
-    serviceName: yup
-      .string()
-      .min(2, (obj) => showErrors("Tên dịch vụ", obj.value.length, obj.min))
-      .required(),
-    status: yup
-      .string()
-      .required("Vui lòng nhập trạng thái"),
-    unitPrice: yup
-      .number()
-      .typeError("Đơn giá phải là số")
-      .positive("Đơn giá phải lớn hơn 0")
-      .required("Vui lòng nhập đơn giá"),
-  });
+  service_code: yup.string().required("Mã dịch vụ là bắt buộc"),
+  service_name: yup.string().required("Tên dịch vụ là bắt buộc"),
+  status: yup.string().required("Trạng thái là bắt buộc"),
+  price: yup
+    .number()
+    .typeError("Đơn giá phải là số")
+    .positive("Đơn giá phải lớn hơn 0")
+    .required("Đơn giá là bắt buộc"),
+});
 
   const {
     control,
     handleSubmit,
-    setValue,
     formState: { errors },
-  } = useForm<ServiceFormType>({
+  } = useForm({
     defaultValues,
     mode: "onChange",
     resolver: yupResolver(schema),
   });
 
-  useEffect(() => {
-    const fetchService = async () => {
-      try {
-        const res = await fetch(`/api/services/${params.id}`);
-        const data = await res.json();
-        setValue("serviceCode", data.serviceCode);
-        setValue("serviceName", data.serviceName);
-        setValue("status", data.status);
-        setValue("unitPrice", data.unitPrice);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchService();
-  }, [params.id, setValue]);
-
-  const onSubmit = async (data: ServiceFormType) => {
-    try {
-      console.log("Service data:", data);
-      // Gọi API update service ở đây
-      await fetch(`/api/services/${params.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      router.push("/services");
-    } catch (error) {
-      console.error(error);
-    }
+  const onSubmit = (data: typeof defaultValues) => {
+    console.log( data);
   };
 
   const handleCancel = () => {
@@ -114,64 +72,55 @@ const Page = ({ params }: { params: { id: string } }) => {
     <Box padding={3}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={3}>
-          <Grid size={{ xs: 12 }}>
+          <Grid size={12}>
             <Card>
               <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 <Grid container spacing={3}>
+
                   {/* Mã dịch vụ */}
-                  <Grid size={{ xs: 12, md: 6 }}>
+                  <Grid size={12}>
                     <FormControl fullWidth>
                       <Typography variant="body2" sx={{ fontWeight: 600, color: themeConfig.textColor4, mb: 1 }}>
                         Mã dịch vụ
                       </Typography>
                       <Controller
-                        name="serviceCode"
+                        name="service_code"
                         control={control}
                         render={({ field }) => (
                           <TextField
                             {...field}
                             placeholder="Nhập mã dịch vụ"
-                            error={Boolean(errors.serviceCode)}
-                            sx={{ "& .MuiInputBase-root": { height: "40px", fontSize: "14px" } }}
+                            error={!!errors.service_code}
+                            helperText={errors.service_code?.message}
                           />
                         )}
                       />
-                      {errors.serviceCode && (
-                        <FormHelperText sx={{ color: "error.main" }}>
-                          {errors.serviceCode.message}
-                        </FormHelperText>
-                      )}
                     </FormControl>
                   </Grid>
 
                   {/* Tên dịch vụ */}
-                  <Grid size={{ xs: 12, md: 6 }}>
+                  <Grid size={12}>
                     <FormControl fullWidth>
                       <Typography variant="body2" sx={{ fontWeight: 600, color: themeConfig.textColor4, mb: 1 }}>
                         Tên dịch vụ
                       </Typography>
                       <Controller
-                        name="serviceName"
+                        name="service_name"
                         control={control}
                         render={({ field }) => (
                           <TextField
                             {...field}
                             placeholder="Nhập tên dịch vụ"
-                            error={Boolean(errors.serviceName)}
-                            sx={{ "& .MuiInputBase-root": { height: "40px", fontSize: "14px" } }}
+                            error={!!errors.service_name}
+                            helperText={errors.service_name?.message}
                           />
                         )}
                       />
-                      {errors.serviceName && (
-                        <FormHelperText sx={{ color: "error.main" }}>
-                          {errors.serviceName.message}
-                        </FormHelperText>
-                      )}
                     </FormControl>
                   </Grid>
 
                   {/* Trạng thái */}
-                  <Grid size={{ xs: 12, md: 6 }}>
+                  <Grid size={12}>
                     <FormControl fullWidth>
                       <Typography variant="body2" sx={{ fontWeight: 600, color: themeConfig.textColor4, mb: 1 }}>
                         Trạng thái
@@ -180,12 +129,18 @@ const Page = ({ params }: { params: { id: string } }) => {
                         name="status"
                         control={control}
                         render={({ field }) => (
-                          <TextField
+                          <Select
                             {...field}
-                            placeholder="Nhập trạng thái"
-                            error={Boolean(errors.status)}
-                            sx={{ "& .MuiInputBase-root": { height: "40px", fontSize: "14px" } }}
-                          />
+                            displayEmpty
+                            error={!!errors.status}
+                          >
+                            <MenuItem value="">Chọn trạng thái</MenuItem>
+                            {STATUS_LIST.map((item) => (
+                              <MenuItem key={item.value} value={item.value}>
+                                {item.label}
+                              </MenuItem>
+                            ))}
+                          </Select>
                         )}
                       />
                       {errors.status && (
@@ -197,29 +152,24 @@ const Page = ({ params }: { params: { id: string } }) => {
                   </Grid>
 
                   {/* Đơn giá */}
-                  <Grid size={{ xs: 12, md: 6 }}>
+                  <Grid size={12}>
                     <FormControl fullWidth>
                       <Typography variant="body2" sx={{ fontWeight: 600, color: themeConfig.textColor4, mb: 1 }}>
                         Đơn giá
                       </Typography>
                       <Controller
-                        name="unitPrice"
+                        name="price"
                         control={control}
                         render={({ field }) => (
                           <TextField
                             {...field}
                             type="number"
                             placeholder="Nhập đơn giá"
-                            error={Boolean(errors.unitPrice)}
-                            sx={{ "& .MuiInputBase-root": { height: "40px", fontSize: "14px" } }}
+                            error={!!errors.price}
+                            helperText={errors.price?.message}
                           />
                         )}
                       />
-                      {errors.unitPrice && (
-                        <FormHelperText sx={{ color: "error.main" }}>
-                          {errors.unitPrice.message}
-                        </FormHelperText>
-                      )}
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -227,7 +177,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             </Card>
           </Grid>
 
-          {/* Nút */}
+          {/* Nút bấm */}
           <Grid size={12}>
             <Box sx={{ display: "flex", justifyContent: "flex-end", gap: "8px" }}>
               <Button onClick={handleCancel}>Hủy</Button>

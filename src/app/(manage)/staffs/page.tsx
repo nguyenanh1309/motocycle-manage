@@ -9,55 +9,6 @@ import { useRouter } from "next/navigation";
 import SearchBox from "@/components/common/SearchBox";
 import themeConfig from "@/config";
 
-const columns: readonly Column[] = [
-  {
-    field: "id",
-    headerName: "",
-    minWidth: 20,
-    type: "checkbox",
-    renderCell: () => (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Checkbox />
-      </Box>
-    ),
-  },
-  {
-    field: "employee_name",
-    headerName: "Tên nhân viên",
-    minWidth: 200,
-    align: "left",
-  },
-  {
-    field: "dob",
-    headerName: "Ngày sinh",
-    minWidth: 150,
-    align: "center",
-  },
-  {
-    field: "phone",
-    headerName: "Số điện thoại",
-    minWidth: 150,
-    align: "left",
-  },
-  {
-    field: "address",
-    headerName: "Địa chỉ",
-    minWidth: 250,
-    align: "left",
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    minWidth: 200,
-    align: "left",
-  },
-  {
-    field: "position",
-    headerName: "Chức vụ",
-    minWidth: 200,
-    align: "left",
-  },
-];
 
 const rows = [
   {
@@ -98,6 +49,75 @@ const EmployeePage = () => {
   const handleAddEmployee = () => {
     router.push("staffs/add");
   };
+
+  const columns: readonly Column[] = [
+  {
+    field: "id",
+    headerName: "",
+    minWidth: 20,
+    type: "checkbox",
+    renderCell: () => (
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Checkbox />
+      </Box>
+    ),
+  },
+  {
+    field: "employee_name",
+    headerName: "Tên nhân viên",
+    minWidth: 200,
+    align: "left",
+ 
+  },
+  {
+    field: "dob",
+    headerName: "Ngày sinh",
+    minWidth: 150,
+    align: "center",
+  },
+  {
+    field: "phone",
+    headerName: "Số điện thoại",
+    minWidth: 150,
+    align: "left",
+  },
+  {
+    field: "address",
+    headerName: "Địa chỉ",
+    minWidth: 250,
+    align: "left",
+  },
+  {
+    field: "email",
+    headerName: "Email",
+    minWidth: 200,
+    align: "left",
+  },
+  {
+    field: "position",
+    headerName: "Chức vụ",
+    minWidth: 200,
+    align: "left",
+  },
+
+  {
+    field: "edit",
+    headerName: "",
+    minWidth: 80,
+    align: "center",
+    renderCell: (row) => (
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+        <Icon
+          icon="mdi:pencil"
+          fontSize="20px"
+          style={{ cursor: "pointer" }}
+          onClick={() => router.push(`/orders/edit`)}
+        />
+      </Box>
+    ),
+  },
+];
+
 
   return (
     <Box sx={{ padding: 3 }}>

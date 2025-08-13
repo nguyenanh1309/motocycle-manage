@@ -18,48 +18,6 @@ import TableCustom from "@/components/table/TableCustom";
 import { Column } from "@/types/tableType";
 import { useRouter } from "next/navigation";
 
-const columns: readonly Column[] = [
-
-  {
-    field: "id",
-    headerName: "",
-    minWidth: 20,
-    type: "checkbox",
-    renderCell: (row: any) => (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Checkbox />
-        </Box>
-      </Box>
-    ),
-  },
-  {
-    field: "code",
-    headerName: "Mã HĐ",
-    minWidth: 100,
-    renderCell: (row: any) => (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <LinkStyled href={`orders/edit/${row.code}`}>{row.code}</LinkStyled>
-        </Box>
-      </Box>
-    ),
-  },
-  {
-    field: "created_at",
-    headerName: "Thời gian tạo",
-    minWidth: 100,
-    align: "left",
-  },
-  { field: "customer_name", headerName: "Tên khách hàng", minWidth: 200, align: "right" },
-  {
-    field: "total",
-    headerName: "Tổng tiền",
-    minWidth: 100,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
-  },
-];
 
 const rows = [
   {
@@ -107,6 +65,68 @@ const Page = () => {
   const handleAddOrder = () => {
     router.push('orders/add')
   }
+
+  const columns: readonly Column[] = [
+
+  {
+    field: "id",
+    headerName: "",
+    minWidth: 20,
+    type: "checkbox",
+    renderCell: (row: any) => (
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Checkbox />
+        </Box>
+      </Box>
+    ),
+  },
+  {
+    field: "code",
+    headerName: "Mã HĐ",
+    minWidth: 100,
+    renderCell: (row: any) => (
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <LinkStyled href={`orders/edit/${row.code}`}>{row.code}</LinkStyled>
+        </Box>
+      </Box>
+    ),
+  },
+  {
+    field: "created_at",
+    headerName: "Thời gian tạo",
+    minWidth: 100,
+    align: "left",
+  },
+  { field: "customer_name", headerName: "Tên khách hàng", minWidth: 200, align: "right" },
+  {
+    field: "total",
+    headerName: "Tổng tiền",
+    minWidth: 100,
+    align: "right",
+    format: (value: number) => value.toLocaleString("en-US"),
+  },
+
+  {
+  field: "edit",
+  headerName: "",
+  minWidth: 80,
+  align: "center",
+  renderCell: (row) => (
+    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+      <Icon
+        icon="mdi:pencil"
+        fontSize="20px"
+        style={{ cursor: "pointer" }}
+        onClick={() => router.push(`/orders/edit`)}
+      />
+    </Box>
+  ),
+},
+];
+
+
   return (
     <Box sx={{ padding: 3 }}>
       <Card>

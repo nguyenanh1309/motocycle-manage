@@ -17,48 +17,6 @@ import TableCustom from "@/components/table/TableCustom";
 import { Column } from "@/types/tableType";
 import { useRouter } from "next/navigation";
 
-const columns: readonly Column[] = [
-
-  {
-    field: "id",
-    headerName: "",
-    minWidth: 20,
-    type: "checkbox",
-    renderCell: (row: any) => (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Checkbox />
-        </Box>
-      </Box>
-    ),
-  },
-  {
-    field: "code",
-    headerName: "Mã DV",
-    minWidth: 150,
-    renderCell: (row: any) => (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <LinkStyled href={`orders/edit/${row.code}`}>{row.code}</LinkStyled>
-        </Box>
-      </Box>
-    ),
-  },
-  { field: "service_name", headerName: "Tên dịch vụ", minWidth: 200 },
-  {
-    field: "price",
-    headerName: "Đơn giá",
-    minWidth: 100,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
-  },
-  {
-    field: "status",
-    headerName: "Trạng thái",
-    minWidth: 100,
-    align: "right",
-  },
-];
 
 const rows = [
   {
@@ -104,8 +62,69 @@ const Page = () => {
   const router = useRouter();
 
   const handleAddOrder = () => {
-    router.push('orders/add')
+    router.push('services/add')
   }
+
+  const columns: readonly Column[] = [
+
+  {
+    field: "id",
+    headerName: "",
+    minWidth: 20,
+    type: "checkbox",
+    renderCell: (row: any) => (
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Checkbox />
+        </Box>
+      </Box>
+    ),
+  },
+  {
+    field: "code",
+    headerName: "Mã DV",
+    minWidth: 150,
+    renderCell: (row: any) => (
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <LinkStyled href={`services/edit/${row.code}`}>{row.code}</LinkStyled>
+        </Box>
+      </Box>
+    ),
+  },
+  { field: "service_name", headerName: "Tên dịch vụ", minWidth: 200 },
+  {
+    field: "price",
+    headerName: "Đơn giá",
+    minWidth: 100,
+    align: "right",
+    format: (value: number) => value.toLocaleString("en-US"),
+  },
+  {
+    field: "status",
+    headerName: "Trạng thái",
+    minWidth: 100,
+    align: "right",
+  },
+
+  {
+  field: "edit",
+  headerName: "",
+  minWidth: 80,
+  align: "center",
+  renderCell: (row) => (
+    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+      <Icon
+        icon="mdi:pencil"
+        fontSize="20px"
+        style={{ cursor: "pointer" }}
+        onClick={() => router.push(`/services/edit`)}
+      />
+    </Box>
+  ),
+},
+];
+
   return (
     <Box sx={{ padding: 3 }}>
       <Card>
