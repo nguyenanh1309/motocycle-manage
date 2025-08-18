@@ -95,24 +95,39 @@ const Page = () => {
       format: (value: number) => value.toLocaleString("en-US"),
     }, 
 
-  {
+ {
     field: "edit",
     headerName: "",
-    minWidth: 80,
+    minWidth: 40,
     align: "center",
     renderCell: (row) => (
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "right", width: "100%" }}>
         <Icon
           icon="mdi:pencil"
           fontSize="20px"
           style={{ cursor: "pointer" }}
-          onClick={() => router.push(`/spending/edit`)}
+          onClick={() => router.push(`/customers/edit`)}
         />
       </Box>
     ),
   },
 
+   {
+    field: "delete",
+    headerName: "",
+    minWidth: 40,
+    align: "center",
+    renderCell: (row) => (
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+        <Icon
+          icon="mdi:delete"
+          fontSize="20px"
+          style={{ cursor: "pointer" }}
 
+        />
+      </Box>
+    ),
+  },
 
 ];
   return (

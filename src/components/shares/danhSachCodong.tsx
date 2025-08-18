@@ -111,28 +111,40 @@ const ShareholderPage = () => {
       align: "left",
     },
     {
-      field: "edit",
-      headerName: "",
-      minWidth: 50,
-      align: "center",
-      renderCell: (row) => (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-          }}
-        >
-          <Icon
-            icon="mdi:pencil"
-            fontSize="20px"
-            style={{ cursor: "pointer" }}
-            onClick={() => router.push(`/shareholders/edit/${row.id}`)}
-          />
-        </Box>
-      ),
-    },
+    field: "edit",
+    headerName: "",
+    minWidth: 40,
+    align: "center",
+    renderCell: (row) => (
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "right", width: "100%" }}>
+        <Icon
+          icon="mdi:pencil"
+          fontSize="20px"
+          style={{ cursor: "pointer" }}
+          onClick={() => router.push(`/customers/edit`)}
+        />
+      </Box>
+    ),
+  },
+
+   {
+    field: "delete",
+    headerName: "",
+    minWidth: 40,
+    align: "center",
+    renderCell: (row) => (
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+        <Icon
+          icon="mdi:delete"
+          fontSize="20px"
+          style={{ cursor: "pointer" }}
+
+        />
+      </Box>
+    ),
+  },
+
+
   ];
 
   return (

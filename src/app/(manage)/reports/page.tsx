@@ -22,23 +22,26 @@ const Page = () => {
   return (
     <Box padding={2}>
       <form>
-        <Grid container spacing={3}>
+     
+
+
+        <Grid container spacing={3} sx={{ mt: 3 }}>
           {/* Bên trái */}
-          <Grid size={{ xs: 12, md: 3 }}>
-             <ProductOrderCard/>
+          <Grid size={{ xs: 12, md: 12 }}>
+            <Box
+              sx={{
+                backgroundColor: "#fff", 
+                borderRadius: 2,        
+                boxShadow: "0 2px 8px rgba(0,0,0,0.05)", 
+                p: 2,                     
+                height: "100%",           
+              }}
+            >
+              <FormatterDemo/>
+            </Box>
           </Grid>
-          <Grid size={{ xs: 12, md: 3 }}>
-            <ProductOrderCard/>
-          </Grid>
-          <Grid size={{ xs: 12, md: 3 }}>
-            <ProductOrderCard/>
-          </Grid>
-          <Grid size={{ xs: 12, md: 3 }}>
-            <ProductOrderCard/>
-          </Grid>
-
         </Grid>
-
+        
         <Grid container spacing={3} sx={{ mt: 3 }}>
           {/* Bên trái */}
           <Grid size={{ xs: 12, md: 8 }}>
@@ -51,7 +54,7 @@ const Page = () => {
                 height: "100%",           
               }}
             >
-              
+              <ReportSummaryTable/>
             </Box>
           </Grid>
 
@@ -68,40 +71,6 @@ const Page = () => {
             >
               <Typography variant="h6">
                   <DonutChart/>
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={3} sx={{ mt: 3 }}>
-          {/* Bên trái */}
-          <Grid size={{ xs: 12, md: 8 }}>
-            <Box
-              sx={{
-                backgroundColor: "#fff", 
-                borderRadius: 2,        
-                boxShadow: "0 2px 8px rgba(0,0,0,0.05)", 
-                p: 2,                     
-                height: "100%",           
-              }}
-            >
-              <FormatterDemo/>
-            </Box>
-          </Grid>
-
-          {/* Bên phải */}
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Box
-              sx={{
-                backgroundColor: "#fff",
-                borderRadius: 2,
-                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-                p: 2,
-                height: "100%",
-              }}
-            >
-              <Typography variant="h6">
-                  <ReportSummaryTable/>
               </Typography>
             </Box>
           </Grid>

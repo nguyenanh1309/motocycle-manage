@@ -1,118 +1,55 @@
-import * as React from 'react';
-import { BarChart } from '@mui/x-charts/BarChart';
+import * as React from "react";
+import { BarChart } from "@mui/x-charts/BarChart";
 
-const otherSetting = {
-  height: 300,
-  yAxis: [{ label: 'rainfall (mm)', width: 60 }],
-  grid: { horizontal: true },
-};
-
-const dataset = [
-  {
-    london: 59,
-    paris: 57,
-    newYork: 86,
-    seoul: 21,
-    month: 'January',
-  },
-  {
-    london: 50,
-    paris: 52,
-    newYork: 78,
-    seoul: 28,
-    month: 'February',
-  },
-  {
-    london: 47,
-    paris: 53,
-    newYork: 106,
-    seoul: 41,
-    month: 'March',
-  },
-  {
-    london: 54,
-    paris: 56,
-    newYork: 92,
-    seoul: 73,
-    month: 'April',
-  },
-  {
-    london: 57,
-    paris: 69,
-    newYork: 92,
-    seoul: 99,
-    month: 'May',
-  },
-  {
-    london: 60,
-    paris: 63,
-    newYork: 103,
-    seoul: 144,
-    month: 'June',
-  },
-  {
-    london: 59,
-    paris: 60,
-    newYork: 105,
-    seoul: 319,
-    month: 'July',
-  },
-  {
-    london: 65,
-    paris: 60,
-    newYork: 106,
-    seoul: 249,
-    month: 'August',
-  },
-  {
-    london: 51,
-    paris: 51,
-    newYork: 95,
-    seoul: 131,
-    month: 'September',
-  },
-  {
-    london: 60,
-    paris: 65,
-    newYork: 97,
-    seoul: 55,
-    month: 'October',
-  },
-  {
-    london: 67,
-    paris: 64,
-    newYork: 76,
-    seoul: 48,
-    month: 'November',
-  },
-  {
-    london: 61,
-    paris: 70,
-    newYork: 103,
-    seoul: 25,
-    month: 'December',
-  },
+const salesData = [
+  { month: "January", revenue: 5000, expense: 3000 },
+  { month: "February", revenue: 7000, expense: 4000 },
+  { month: "March", revenue: 6000, expense: 3500 },
+  { month: "April", revenue: 8000, expense: 5000 },
+  { month: "May", revenue: 7500, expense: 4200 },
+  { month: "June", revenue: 9000, expense: 6000 },
+  { month: "July", revenue: 9500, expense: 6200 },
+  { month: "August", revenue: 10000, expense: 7000 },
+  { month: "September", revenue: 8500, expense: 5800 },
+  { month: "October", revenue: 9500, expense: 6400 },
+  { month: "November", revenue: 11000, expense: 7200 },
+  { month: "December", revenue: 12000, expense: 8000 },
 ];
 
-const valueFormatter = (value) => `${value}mm`;
+// Sửa formatter cho phép null
+const moneyFormatter = (value: number | null) =>
+  value !== null ? `$${value.toLocaleString()}` : "";
 
-export default function FormatterDemo() {
+export default function RevenueExpenseBarChart() {
   return (
     <BarChart
-      dataset={dataset}
+      dataset={salesData}
       xAxis={[
         {
-          scaleType: 'band',
-          dataKey: 'month',
+          scaleType: "band",
+          dataKey: "month",
+          height: 20,
           valueFormatter: (month, context) =>
-            context.location === 'tick'
-              ? `${month.slice(0, 3)} \n2023`
-              : `${month} 2023`,
-          height: 40,
+            context.location === "tick" ? month.slice(0, 3) : month,
         },
       ]}
-      series={[{ dataKey: 'seoul', label: 'Seoul rainfall', valueFormatter }]}
-      {...otherSetting}
+      series={[
+        {
+          dataKey: "revenue",
+          label: "Revenue",
+          valueFormatter: moneyFormatter,
+          color: "#2e7d32", // xanh lá
+        },
+        {
+          dataKey: "expense",
+          label: "Expense",
+          valueFormatter: moneyFormatter,
+          color: "#1976d2", // xanh lam
+        },
+      ]}
+      height={350}
+      yAxis={[{ label: "Amount ($)" }]}
+      grid={{ horizontal: true }}
     />
   );
 }
