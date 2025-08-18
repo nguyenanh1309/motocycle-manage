@@ -16,7 +16,7 @@ const salesData = [
   { month: "December", revenue: 12000, expense: 8000 },
 ];
 
-// Sửa formatter cho phép null
+
 const moneyFormatter = (value: number | null) =>
   value !== null ? `$${value.toLocaleString()}` : "";
 
