@@ -49,7 +49,6 @@ const EmployeePage = () => {
   const handleAddEmployee = () => {
     router.push("staffs/add");
   };
-
   const columns: readonly Column[] = [
   {
     field: "id",
@@ -134,8 +133,6 @@ const EmployeePage = () => {
     ),
   },
 ];
-
-
   return (
     <Box sx={{ padding: 3 }}>
       <Card>
@@ -191,4 +188,3 @@ const EmployeePage = () => {
 };
 
 export default EmployeePage;
-

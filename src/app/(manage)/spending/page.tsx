@@ -9,8 +9,59 @@ import { useRouter } from "next/navigation";
 import SearchBox from "@/components/common/SearchBox";
 import themeConfig from "@/config";
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+=======
+const columns: readonly Column[] = [
+  {
+      field: "id",
+      headerName: "",
+      minWidth: 20,
+      type: "checkbox",
+      renderCell: (row: any) => (
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Checkbox />
+          </Box>
+        </Box>
+      ),
+    },
 
 
+    {
+        field: "spending_date",
+        headerName: "Ngày",
+        minWidth: 100,
+        align: "left",
+      },
+
+
+{
+        field: "spending_name",
+        headerName: "Tên",
+        minWidth: 200,
+        align: "left",
+      },
+
+
+
+     {
+    field: "total_amount",
+    headerName: "Tổng chi tiêu",
+    minWidth: 250,
+    align: "right",
+    format: (value: number) => value.toLocaleString("en-US"),
+  }, 
+
+
+];
+>>>>>>> ab73eef (feat: thêm add vào phiếu chi nhân viên và kho hàng)
+
+=======
+
+
+>>>>>>> 010a2f7 (Thông điệp commit mô tả thay đổi)
 const rows = [
   {
     id: "1",
@@ -95,6 +146,7 @@ const Page = () => {
       format: (value: number) => value.toLocaleString("en-US"),
     }, 
 
+<<<<<<< HEAD
  {
     field: "edit",
     headerName: "",
@@ -116,19 +168,37 @@ const Page = () => {
     field: "delete",
     headerName: "",
     minWidth: 40,
+=======
+  {
+    field: "edit",
+    headerName: "",
+    minWidth: 80,
+>>>>>>> 010a2f7 (Thông điệp commit mô tả thay đổi)
     align: "center",
     renderCell: (row) => (
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
         <Icon
+<<<<<<< HEAD
           icon="mdi:delete"
           fontSize="20px"
           style={{ cursor: "pointer" }}
 
+=======
+          icon="mdi:pencil"
+          fontSize="20px"
+          style={{ cursor: "pointer" }}
+          onClick={() => router.push(`/spending/edit`)}
+>>>>>>> 010a2f7 (Thông điệp commit mô tả thay đổi)
         />
       </Box>
     ),
   },
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 010a2f7 (Thông điệp commit mô tả thay đổi)
 ];
   return (
     <Box sx={{ padding: 3 }}>

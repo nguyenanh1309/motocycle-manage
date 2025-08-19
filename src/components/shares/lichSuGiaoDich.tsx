@@ -1,58 +1,30 @@
 "use client";
+
 import * as React from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
-import { Box, Dialog, DialogTitle, DialogContent, Typography } from "@mui/material";
-import Card from "@mui/material/Card";
+import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
 
-// Data mẫu
+// Dữ liệu mẫu
 export const transactionData = [
-  {
-    id: "1",
-    name: "Nguyễn Văn A",
-    date: "2025-08-10",
-    type: "Mua",
-    percentage: 5, // phần trăm cổ phần
-  },
-  {
-    id: "2",
-    name: "Trần Thị B",
-    date: "2025-08-12",
-    type: "Bán",
-    percentage: 3,
-  },
-  {
-    id: "3",
-    name: "Nguyễn Văn C",
-    date: "2025-08-14",
-    type: "Mua",
-    percentage: 8,
-  },
-  {
-    id: "4",
-    name: "Nguyễn Văn D",
-    date: "2025-08-14",
-    type: "Mua",
-    percentage: 8,
-  },
-
-  {
-    id: "5",
-    name: "Nguyễn Văn C",
-    date: "2025-07-14",
-    type: "Mua",
-    percentage: 8,
-  },
+  { id: "1", name: "Nguyễn Văn A", date: "2025-08-10", type: "Mua", percentage: 5 },
+  { id: "2", name: "Trần Thị B", date: "2025-08-12", type: "Bán", percentage: 3 },
+  { id: "3", name: "Nguyễn Văn C", date: "2025-08-14", type: "Mua", percentage: 8 },
+  { id: "4", name: "Nguyễn Văn D", date: "2025-08-14", type: "Mua", percentage: 8 },
+  { id: "5", name: "Nguyễn Văn C", date: "2025-07-14", type: "Mua", percentage: 8 },
+  { id: "6", name: "Trần Văn E", date: "2025-08-14", type: "Bán", percentage: 2 },
+  { id: "7", name: "Lê Thị F", date: "2025-08-14", type: "Mua", percentage: 6 },
 ];
 
-// Tính ngày có giao dịch để tô màu
+// Hàm xác định giao dịch theo ngày
 const getTransactionTypeForDate = (date: string) => {
   const tx = transactionData.find((t) => t.date === date);
   return tx ? tx.type : null;
 };
 
+// Component custom cho từng ngày trên calendar
 function CustomDay(
   props: PickersDayProps<Dayjs> & { onDayClick: (date: string) => void }
 ) {
@@ -81,59 +53,59 @@ function CustomDay(
   );
 }
 
-export default function LichGiaoDich() {
-  const [open, setOpen] = React.useState(false);
+export default function TransactionTimeline() {
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
 
   const handleDayClick = (date: string) => {
     setSelectedDate(date);
-    setOpen(true);
   };
 
-  const selectedTransactions = transactionData.filter((t) => t.date === selectedDate);
+  const selectedTransactions = transactionData.filter(
+    (t) => t.date === selectedDate
+  );
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-        <DateCalendar
-          slots={{
-            day: (props) => <CustomDay {...props} onDayClick={handleDayClick} />,
-          }}
-        />
-      </Box>
+      {/* Khung cố định 300px + scroll */}
+      <Box
+        sx={{
+          height: 340,       
+          overflowY: "auto", 
+          px: 2,
+        }}
+      >
+        {/* Calendar */}
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+          <DateCalendar
+            slots={{
+              day: (props) => <CustomDay {...props} onDayClick={handleDayClick} />,
+            }}
+          />
+        </Box>
 
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ fontWeight: "bold", bgcolor: "#2BA563", color: "#fff" }}>
-          Chi tiết giao dịch
-        </DialogTitle>
-        <DialogContent>
-          {selectedDate && (
-            <Box sx={{ mt: 2 }}>
-              {selectedTransactions.length > 0 ? (
-                selectedTransactions.map((t) => (
-                  <Card
-                    key={t.id}
-                    sx={{
-                      p: 2,
-                      mb: 2,
-                      bgcolor: "#fff",
-                    }}
-                  >
-                    <Typography variant="h6" sx={{ mb: 1 }}>
-                      Người giao dịch: {t.name}
-                    </Typography>
-                    <Typography>Trạng thái: {t.type}</Typography>
-                    <Typography>Phần trăm cổ phần: {t.percentage}%</Typography>
-                    <Typography>Ngày giao dịch: {t.date}</Typography>
-                  </Card>
-                ))
-              ) : (
-                <Typography color="text.secondary">Không có giao dịch</Typography>
-              )}
-            </Box>
-          )}
-        </DialogContent>
-      </Dialog>
+        {/* List lịch sử giao dịch */}
+        {selectedDate && (
+          <Box sx={{ width: "100%" }}>
+            <Typography variant="subtitle1" sx={{ mb: 1 }}>
+              Giao dịch ngày: {selectedDate}
+            </Typography>
+            {selectedTransactions.length > 0 ? (
+              <List disablePadding>
+                {selectedTransactions.map((t) => (
+                  <ListItem key={t.id} divider>
+                    <ListItemText
+                      primary={`${t.name} - ${t.type}`}
+                      secondary={`Phần trăm cổ phần: ${t.percentage}%`}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <Typography color="text.secondary">Không có giao dịch</Typography>
+            )}
+          </Box>
+        )}
+      </Box>
     </LocalizationProvider>
   );
 }

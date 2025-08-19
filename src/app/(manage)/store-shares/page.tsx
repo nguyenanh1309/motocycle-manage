@@ -36,8 +36,8 @@ const Page = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid>
-              <Card>
+            <Grid >
+              <Card sx={{overflowY: "auto"}}>
                 <CardContent sx={{ minHeight: "300px" }}>
                   <Typography sx={{ color: "#2BA563", fontWeight: "bold", mb: 2 }}>
                     Lịch sử giao dịch
