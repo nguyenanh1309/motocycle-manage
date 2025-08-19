@@ -9,10 +9,6 @@ import { useRouter } from "next/navigation";
 import SearchBox from "@/components/common/SearchBox";
 import themeConfig from "@/config";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
 const columns: readonly Column[] = [
   {
       field: "id",
@@ -56,12 +52,7 @@ const columns: readonly Column[] = [
 
 
 ];
->>>>>>> ab73eef (feat: thêm add vào phiếu chi nhân viên và kho hàng)
 
-=======
-
-
->>>>>>> 010a2f7 (Thông điệp commit mô tả thay đổi)
 const rows = [
   {
     id: "1",
@@ -146,7 +137,6 @@ const Page = () => {
       format: (value: number) => value.toLocaleString("en-US"),
     }, 
 
-<<<<<<< HEAD
  {
     field: "edit",
     headerName: "",
@@ -168,37 +158,19 @@ const Page = () => {
     field: "delete",
     headerName: "",
     minWidth: 40,
-=======
-  {
-    field: "edit",
-    headerName: "",
-    minWidth: 80,
->>>>>>> 010a2f7 (Thông điệp commit mô tả thay đổi)
     align: "center",
     renderCell: (row) => (
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
         <Icon
-<<<<<<< HEAD
           icon="mdi:delete"
           fontSize="20px"
           style={{ cursor: "pointer" }}
 
-=======
-          icon="mdi:pencil"
-          fontSize="20px"
-          style={{ cursor: "pointer" }}
-          onClick={() => router.push(`/spending/edit`)}
->>>>>>> 010a2f7 (Thông điệp commit mô tả thay đổi)
         />
       </Box>
     ),
   },
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 010a2f7 (Thông điệp commit mô tả thay đổi)
 ];
   return (
     <Box sx={{ padding: 3 }}>

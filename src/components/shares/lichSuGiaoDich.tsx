@@ -1,10 +1,13 @@
 "use client";
 
+
+
 import * as React from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar, PickersDay, PickersDayProps } from "@mui/x-date-pickers";
+
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
 
 // Dữ liệu mẫu
@@ -19,12 +22,14 @@ export const transactionData = [
 ];
 
 // Hàm xác định giao dịch theo ngày
+
 const getTransactionTypeForDate = (date: string) => {
   const tx = transactionData.find((t) => t.date === date);
   return tx ? tx.type : null;
 };
 
-// Component custom cho từng ngày trên calendar
+
+
 function CustomDay(
   props: PickersDayProps<Dayjs> & { onDayClick: (date: string) => void }
 ) {
@@ -53,11 +58,15 @@ function CustomDay(
   );
 }
 
+
 export default function TransactionTimeline() {
+
+
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
 
   const handleDayClick = (date: string) => {
     setSelectedDate(date);
+
   };
 
   const selectedTransactions = transactionData.filter(
@@ -106,6 +115,7 @@ export default function TransactionTimeline() {
           </Box>
         )}
       </Box>
+
     </LocalizationProvider>
   );
 }

@@ -22,8 +22,6 @@ const Page = () => {
   return (
     <Box padding={2}>
       <form>
-     
-
 
         <Grid container spacing={3} sx={{ mt: 3 }}>
           {/* Bên trái */}
@@ -42,6 +40,7 @@ const Page = () => {
           </Grid>
         </Grid>
         
+
         <Grid container spacing={3} sx={{ mt: 3 }}>
           {/* Bên trái */}
           <Grid size={{ xs: 12, md: 8 }}>
@@ -54,7 +53,9 @@ const Page = () => {
                 height: "100%",           
               }}
             >
+
               <ReportSummaryTable/>
+              
             </Box>
           </Grid>
 
@@ -75,6 +76,9 @@ const Page = () => {
             </Box>
           </Grid>
         </Grid>
+
+        
+
       </form>
     </Box>
   );

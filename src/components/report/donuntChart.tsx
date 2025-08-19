@@ -1,3 +1,4 @@
+
 "use client";
 import * as React from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
@@ -31,6 +32,7 @@ const StyledText = styled("text")(({ theme }) => ({
 }));
 
 function PieCenterLabel({ children }: { children: React.ReactNode }) {
+
   const { width, height, left, top } = useDrawingArea();
   return (
     <StyledText x={left + width / 2} y={top + height / 2}>
@@ -38,6 +40,7 @@ function PieCenterLabel({ children }: { children: React.ReactNode }) {
     </StyledText>
   );
 }
+
 
 export default function SalesReport() {
   const total = data.reduce((sum, item) => sum + item.value, 0);
@@ -110,5 +113,6 @@ export default function SalesReport() {
         </Box>
       ))}
     </Box>
+
   );
 }

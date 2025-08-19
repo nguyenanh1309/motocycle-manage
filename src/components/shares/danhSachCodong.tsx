@@ -111,6 +111,7 @@ const ShareholderPage = () => {
       align: "left",
     },
     {
+
     field: "edit",
     headerName: "",
     minWidth: 40,
@@ -143,8 +144,6 @@ const ShareholderPage = () => {
       </Box>
     ),
   },
-
-
   ];
 
   return (

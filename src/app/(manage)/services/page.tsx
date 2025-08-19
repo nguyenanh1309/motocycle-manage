@@ -108,40 +108,6 @@ const Page = () => {
   },
 
   {
-<<<<<<< HEAD
-    field: "edit",
-    headerName: "",
-    minWidth: 40,
-    align: "center",
-    renderCell: (row) => (
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "right", width: "100%" }}>
-        <Icon
-          icon="mdi:pencil"
-          fontSize="20px"
-          style={{ cursor: "pointer" }}
-          onClick={() => router.push(`/customers/edit`)}
-        />
-      </Box>
-    ),
-  },
-
-   {
-    field: "delete",
-    headerName: "",
-    minWidth: 40,
-    align: "center",
-    renderCell: (row) => (
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
-        <Icon
-          icon="mdi:delete"
-          fontSize="20px"
-          style={{ cursor: "pointer" }}
-
-        />
-      </Box>
-    ),
-  },
-=======
   field: "edit",
   headerName: "",
   minWidth: 80,
@@ -157,7 +123,6 @@ const Page = () => {
     </Box>
   ),
 },
->>>>>>> 010a2f7 (Thông điệp commit mô tả thay đổi)
 ];
 
   return (
