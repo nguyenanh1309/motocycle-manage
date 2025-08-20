@@ -1,6 +1,6 @@
 "use client";
 import { OrderType } from "@/types/orderType";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DataGrid, GridColDef, GridRowId } from "@mui/x-data-grid";
 import { ButtonStyled, LinkStyled } from "@/mui-theme/base";
 import {
@@ -19,48 +19,29 @@ import { Column } from "@/types/tableType";
 import { useRouter } from "next/navigation";
 
 
-const rows = [
-  {
-    id: "1",
-    code: "XM001",
-    created_at: "2024-10-11",
-    customer_name: "Đăng Thịnh",
-    total: 1324174,
-  },
-  {
-    id: "2",
-    code: "XM002",
-    created_at: "2024-10-11",
-    customer_name: "Đăng Trường",
-    total: 14035005,
-  },
-  {
-    id: "3",
-    code: "XM003",
-    created_at: "2024-10-11",
-    customer_name: "Đăng Chung",
-    total: 603973,
-  },
-  {
-    id: "4",
-    code: "XM004",
-    created_at: "2024-10-11",
-    customer_name: "Đăng Quân",
-    total: 3271434,
-  },
-  {
-    id: "5",
-    code: "XM005",
-    created_at: "2024-10-11",
-    customer_name: "Phạm Đông",
-    total: 3760210,
-  },
-];
+
 
 const Page = () => {
   const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
+  const [rows, setRows] = useState<any[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+      const fetchOrders = async () => {
+        try {
+          const res = await fetch(
+            "https://68a2f4bac5a31eb7bb1e6d6f.mockapi.io/api/v1/orders"
+          );
+          const data = await res.json();
+          setRows(data);
+        } catch (error) {
+          console.error("Lỗi khi fetch API:", error);
+        }
+      };
+  
+      fetchOrders();
+    }, []);
 
   const handleAddOrder = () => {
     router.push('orders/add')

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ButtonStyled, LinkStyled } from "@/mui-theme/base";
 import { Box, Button, Card, Checkbox, Typography } from "@mui/material";
 import Icon from "@/components/bases/Icon";
@@ -9,133 +9,150 @@ import { useRouter } from "next/navigation";
 import SearchBox from "@/components/common/SearchBox";
 import themeConfig from "@/config";
 
-
-
-
 const Page = () => {
   const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
   const [searchValue, setSearchValue] = useState("");
+  const [rows, setRows] = useState<any[]>([]); // lưu dữ liệu API
   const router = useRouter();
+
+ 
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const res = await fetch(
+          "https://68a2f4bac5a31eb7bb1e6d6f.mockapi.io/api/v1/customers"
+        );
+        const data = await res.json();
+        setRows(data);
+      } catch (error) {
+        console.error("Lỗi khi fetch API:", error);
+      }
+    };
+
+    fetchCustomers();
+  }, []);
 
   const handleAddCustomer = () => {
     router.push("customers/add");
   };
+
+  const handleDeleteCustomer = async (id: number) => {
+  try {
+    const res = await fetch(
+      `https://68a2f4bac5a31eb7bb1e6d6f.mockapi.io/api/v1/customers/${id}`,
+      { method: "DELETE" }
+    );
+
+    if (res.ok) {
+      setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+    } else {
+      console.error("Xóa thất bại");
+    }
+  } catch (error) {
+    console.error("Lỗi khi xóa:", error);
+  }
+};
+
+
   const columns: readonly Column[] = [
-  {
-    field: "id",
-    headerName: "",
-    minWidth: 20,
-    type: "checkbox",
-    renderCell: (row: any) => (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+    {
+      field: "id",
+      headerName: "",
+      minWidth: 20,
+      type: "checkbox",
+      renderCell: (row: any) => (
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           <Checkbox />
         </Box>
-      </Box>
-    ),
-  },
-  {
-    field: "customer_name",
-    headerName: "Tên khách hàng",
-    minWidth: 200,
-    renderCell: (row) => (
-      <LinkStyled href={`customers/edit`}>
-        {row.customer_name}
-      </LinkStyled>
-    ),
-  },
-  {
-    field: "phone",
-    headerName: "SĐT",
-    minWidth: 200,
-    align: "center",
-    renderCell: (params) => {
-      const phone = params.phone;
-      if (typeof phone === "string" && phone.length >= 4) {
-        const start = phone.slice(0, -7);
-        const middle = "****";
-        const end = phone.slice(-3);
-        return `${start} ${middle} ${end}`;
-      }
-      return <Typography>{phone}</Typography>;
+      ),
     },
-  },
-  { field: "address", headerName: "Địa chỉ", align: "left", minWidth: 300 },
-  {
-    field: "usage_count",
-    headerName: "Số lượt",
-    minWidth: 100,
-    align: "center",
-  },
-  {
-    field: "total",
-    headerName: "Tổng chi tiêu",
-    minWidth: 250,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
-  },
-  {
-  field: "edit",
-  headerName: "",
-  minWidth: 80,
-  align: "center",
-  renderCell: (row) => (
-    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
-      <Icon
-        icon="mdi:pencil"
-        fontSize="20px"
-        style={{ cursor: "pointer" }}
-        onClick={() => router.push(`/customers/edit`)}
-      />
-    </Box>
-  ),
-},
+    {
+      field: "customer_name",
+      headerName: "Tên khách hàng",
+      minWidth: 200,
+      renderCell: (row) => (
+        <LinkStyled href={`customers/edit`}>
+          {row.customer_name}
+        </LinkStyled>
+      ),
+    },
+    {
+      field: "phone",
+      headerName: "SĐT",
+      minWidth: 200,
+      align: "center",
+      renderCell: (params) => {
+        const phone = params.phone;
+        if (typeof phone === "string" && phone.length >= 4) {
+          const start = phone.slice(0, -7);
+          const middle = "****";
+          const end = phone.slice(-3);
+          return `${start} ${middle} ${end}`;
+        }
+        return <Typography>{phone}</Typography>;
+      },
+    },
 
-];
+    { field: "address", 
+      headerName: "Địa chỉ", 
+      align: "left", 
+      minWidth: 300 },
+    {
+      field: "usage_count",
+      headerName: "Số lượt",
+      minWidth: 100,
+      align: "center",
+    },
+    {
+      field: "total",
+      headerName: "Tổng chi tiêu",
+      minWidth: 250,
+      align: "center",
+      format: (value: number) => value?.toLocaleString("en-US"),
+    },
+    {
+      field: "edit",
+      headerName: "",
+      minWidth: 40,
+      align: "center",
+      renderCell: (row) => (
+        <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+          <Icon
+            icon="mdi:pencil"
+            fontSize="20px"
+            style={{ cursor: "pointer" }}
+            onClick={() => router.push(`/customers/edit/${row.id}`)}
+          />
+        </Box>
+      ),
+    },
+    {
+      field: "delete",
+      headerName: "",
+      minWidth: 40,
+      align: "center",
+      renderCell: (row) => (
+        <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+          <Icon
+            icon="mdi:delete"
+            fontSize="20px"
+            style={{ cursor: "pointer" }}
+                      onClick={() => {
+            if (window.confirm("Bạn có chắc chắn muốn xóa khách hàng này?")) {
+              handleDeleteCustomer(row.id);
+            }
+          }}
 
-const rows = [
-  {
-    id: "1",
-    customer_name: "Đặng Thịnh",
-    phone: "0905123456",
-    address: "Quan Hoa, Cầu Giấy, Hà Nội",
-    usage_count: 10,
-    total: 1324174,
-  },
-  {
-    id: "2",
-    customer_name: "Nguyễn Văn An",
-    phone: "0912345678",
-    address: "Hoàn Kiếm, Hà Nội",
-    usage_count: 5,
-    total: 875000,
-  },
-  {
-    id: "3",
-    customer_name: "Trần Thị Bình",
-    phone: "0987654321",
-    address: "Hai Bà Trưng, Hà Nội",
-    usage_count: 8,
-    total: 2150000,
-  },
-  {
-    id: "4",
-    customer_name: "Lê Hoàng Cường",
-    phone: "0976543210",
-    address: "Đống Đa, Hà Nội",
-    usage_count: 3,
-    total: 450000,
-  },
-  {
-    id: "5",
-    customer_name: "Phạm Minh Dương",
-    phone: "0932109876",
-    address: "Ba Đình, Hà Nội",
-    usage_count: 12,
-    total: 3500000,
-  },
-];
+          />
+        </Box>
+      ),
+    },
+    
+
+
+  ];
+
   return (
     <Box sx={{ padding: 3 }}>
       <Card>
@@ -196,7 +213,7 @@ const rows = [
           setPage={setPage}
           limit={limit}
           setLimit={setLimit}
-          rows={rows}
+          rows={rows} 
           columns={columns as Column[]}
           isPagination={true}
         />

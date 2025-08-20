@@ -17,12 +17,13 @@ import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { ButtonStyled } from "@/mui-theme/base";
 import * as yup from "yup";
+import { create } from "domain";
 
 const defaultValues = {
   code: "",
   created_at: "",
   customer_name: "",
-  total: "",
+  total: 0,
 };
 
 
@@ -51,10 +52,30 @@ const Page = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: typeof defaultValues) => {
-    console.log(data);
+  const onSubmit = async (data: typeof defaultValues) => {
+    try {
+      const res = await fetch(
+      "https://68a2f4bac5a31eb7bb1e6d6f.mockapi.io/api/v1/orders",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customer_name: data.customer_name,      
+          create_at: data.created_at,
+          code: data.code,
+          total: data.total,
+        }),
+      }
+    );
+    const newOrder = await res.json();
+    console.log("Khách hàng mới:", newOrder);
 
+
+    router.push("/orders");
+    } catch (error) {}
   };
+
+  
 
   const handleCancel = () => {
     router.push("/orders");

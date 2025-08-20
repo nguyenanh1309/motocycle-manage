@@ -98,8 +98,31 @@ const Page = () => {
 
   const onSubmit = async (data: Omit<CustomerType, "id">) => {
     try {
+      const res = await fetch(
+      "https://68a2f4bac5a31eb7bb1e6d6f.mockapi.io/api/v1/customers",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customer_name: data.name,      
+          phone: data.phone,
+          licensePlate: data.licensePlate,
+          address: data.address,
+          district: data.district,
+          sub_district: data.sub_district,
+          usage_count: 0,
+          total: 0,
+        }),
+      }
+    );
+    const newCustomer = await res.json();
+    console.log("Khách hàng mới:", newCustomer);
+
+
+    router.push("/customers");
     } catch (error) {}
   };
+
 
   const handleCancel = () => {
     router.push("/customers");

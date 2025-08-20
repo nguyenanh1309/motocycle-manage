@@ -13,6 +13,8 @@ import {
 import Grid from "@mui/material/Grid2";
 import React from "react";
 import RevenueTimeline from "@/components/dashboard/cal";
+import CustomerCard from "@/components/dashboard/card";
+import BranchList from "@/components/dashboard/danhSachCoSo";
 
 
 const Page = () => {
@@ -29,29 +31,20 @@ const Page = () => {
                 </CardContent>
               </Card>
           </Grid>
-          <Grid container sx={{ minHeight: "200px", minWidth: "200px" }}>
-              <Card>
-                <CardContent >
-                  
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent >
-                  
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent >
-                  
-                </CardContent>
-              </Card>
-          </Grid>
+          <Grid container spacing={2} sx={{ minHeight: "200px" }}>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <CustomerCard />
+              </Grid>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <CustomerCard />
+              </Grid>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <CustomerCard />
+              </Grid>
+            </Grid>
+
           <Grid>
-              <Card>
-                <CardContent sx={{ minHeight: "200px" }}>
-                  
-                </CardContent>
-              </Card>
+                  <BranchList/>
           </Grid>
         </Grid>
 
